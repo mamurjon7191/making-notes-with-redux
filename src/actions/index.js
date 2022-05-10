@@ -4,3 +4,10 @@ export const addNotesAction = function (obj) {
     payload: obj,
   };
 };
+export const deleteNotesAction = function (obj, info) {
+  return {
+    type: "Delete",
+    payload: obj,
+    info: info,
+  };
+};

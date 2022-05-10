@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addNotesAction } from "../actions";
+import { addNotesAction, deleteNotesAction } from "../actions";
 
 const NotesList = function (props) {
   console.log(props);
@@ -10,7 +10,20 @@ const NotesList = function (props) {
   const renderNote = function () {
     return props.addNotesReducer.map((val, index) => {
       return (
-        <div className="ui card" key={index}>
+        <div
+          className="ui card"
+          key={index}
+          style={{
+            padding: "0.3rem",
+            backgroundColor: "#43e97b",
+          }}
+        >
+          <div style={{ textAlign: "right", fontSize: "30px" }}>
+            <i
+              className="close icon"
+              style={{ cursor: "pointer", color: "red" }}
+            ></i>
+          </div>
           <div className="content">
             <div className="header">
               <input
@@ -40,7 +53,9 @@ const NotesList = function (props) {
             <div className="ui buttons" style={{ marginLeft: "45px" }}>
               <button className="ui button">Edit</button>
               <div className="or"></div>
-              <button className="ui positive button">Save</button>
+              <button className="ui positive button" onClick={deleteFunc}>
+                Delete
+              </button>
             </div>
           </div>
         </div>
@@ -48,11 +63,25 @@ const NotesList = function (props) {
     });
   };
   ///////////////////////////////////////////////////////////////
-  const addNote = function () {
+  const addNote = function (e) {
     props.addNotesAction({
       title: title,
       description: description,
     });
+    e.target.parentElement.previousElementSibling.value = "";
+    e.target.parentElement.previousElementSibling.previousElementSibling.firstElementChild.value =
+      "";
+  };
+  ///////////////////////////////////////////////////////////////
+  const deleteFunc = function () {
+    console.log(props);
+    props.deleteNotesAction(
+      {
+        title: title,
+        description: description,
+      },
+      props.addNotesReducer
+    );
   };
   ///////////////////////////////////////////////////////////////
   return (
@@ -69,18 +98,19 @@ const NotesList = function (props) {
                 }}
               ></input>
             </div>
-            <p>
-              <textarea
-                style={{ width: "100%", height: "200px", outline: "none" }}
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                }}
-              ></textarea>
-            </p>
+            <textarea
+              className="area"
+              style={{ width: "100%", height: "200px", outline: "none" }}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            ></textarea>
             <div className="ui buttons" style={{ marginLeft: "45px" }}>
-              <button className="ui button">Delete</button>
-              <div className="or"></div>
-              <button className="ui positive button" onClick={addNote}>
+              <button
+                className="ui positive button"
+                onClick={addNote}
+                style={{ marginLeft: "130px" }}
+              >
                 Save
               </button>
             </div>
@@ -98,4 +128,6 @@ const getMyState = function (state) {
   return state;
 };
 
-export default connect(getMyState, { addNotesAction })(NotesList);
+export default connect(getMyState, { addNotesAction, deleteNotesAction })(
+  NotesList
+);
