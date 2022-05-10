@@ -1,4 +1,4 @@
-const addNotesAction = function (obj) {
+export const addNotesAction = function (obj) {
   return {
     type: "Add",
     payload: obj,
