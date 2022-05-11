@@ -20,6 +20,7 @@ const NotesList = function (props) {
         >
           <div style={{ textAlign: "right", fontSize: "30px" }}>
             <i
+              onClick={deleteFunc}
               className="close icon"
               style={{ cursor: "pointer", color: "red" }}
             ></i>
@@ -43,7 +44,8 @@ const NotesList = function (props) {
                   height: "200px",
                   outline: "none",
                 }}
-                disabled={true}
+                // disabled={true}
+                readOnly={true}
                 onChange={(e) => {
                   setDescription(e.target.value);
                 }}
@@ -51,11 +53,11 @@ const NotesList = function (props) {
               ></textarea>
             </p>
             <div className="ui buttons" style={{ marginLeft: "45px" }}>
-              <button className="ui button">Edit</button>
-              <div className="or"></div>
-              <button className="ui positive button" onClick={deleteFunc}>
-                Delete
+              <button className="ui button" onClick={editFunc}>
+                Edit
               </button>
+              <div className="or"></div>
+              <button className="ui positive button">Save</button>
             </div>
           </div>
         </div>
@@ -82,6 +84,11 @@ const NotesList = function (props) {
       },
       props.addNotesReducer
     );
+  };
+  ///////////////////////////////////////////////////////////////
+  const editFunc = function (e) {
+    // e.target.parentElement.previousElementSibling.firstElementChild.disabled = false;
+    e.target.parentElement.previousElementSibling.firstElementChild.readOnly = false;
   };
   ///////////////////////////////////////////////////////////////
   return (
